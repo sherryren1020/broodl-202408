@@ -1,21 +1,17 @@
-import Main from "@/components/Main";
-import Login from "@/components/Login";
 import Dashboard from "@/components/Dashboard";
+import Loading from "@/components/Loading";
+import Login from "@/components/Login";
+import Main from "@/components/Main";
 
 export const metadata = {
-    title: "Broodl ⋅ Dashboard",
-    description: "Track your daily mood every day",
-  };
+    title: "Broodl · Dashboard",
+};
 
-export default function DashboardPage (){
-    const isAuthenticated = true
+export default function DashboardPage() {
 
-    let children = ( < Login /> )
-
-    if(isAuthenticated){
-        children = ( <Dashboard />)
-    }
     return (
-        <Main>{ children }</Main>
+        <Main>
+            <Dashboard />
+        </Main>
     )
 }
