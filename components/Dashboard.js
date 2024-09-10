@@ -131,7 +131,7 @@ export default function Dashboard() {
                 'text-5xl sm:text-6xl md:text-7xl text-center ' + fugaz.className
             }>
                 How do you
-                <span className='textGradient'>feel</span>
+                <span className='textGradient'> feel </span>
                 today?
             </h4>
             <div className='flex items-stretch flex-wrap gap-4'>
