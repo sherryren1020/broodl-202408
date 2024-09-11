@@ -2,6 +2,7 @@
 import { baseRating, gradients } from '@/utils'
 import { Fugaz_One } from 'next/font/google'
 import React, { useState } from 'react'
+import { TfiAgenda } from "react-icons/tfi";
 
 const months = { 'January': 'Jan', 'February': 'Feb', 'March': 'Mar', 'April': 'Apr', 'May': 'May', 'June': 'Jun', 'July': 'Jul', 'August': 'Aug', 'September': 'Sept', 'October': 'Oct', 'November': 'Nov', 'December': 'Dec' }
 const monthsArr = Object.keys(months)
@@ -21,6 +22,7 @@ export default function Calendar(props) {
     const numericMonth = monthsArr.indexOf(selectedMonth)
     const data = completeData?.[selectedYear]?.[numericMonth] || {}
 
+    const blog = true
     function handleIncrementMonth(val) {
         // value +1 -1
         // if we hit the bounds of the months, then we can just adjust the year that is displayed instead
@@ -82,6 +84,7 @@ export default function Calendar(props) {
                                 return (
                                     <div style={{ background: color }} className={'text-xs sm:text-sm border border-solid p-2 flex items-center gap-2 justify-between rounded-lg ' + (isToday ? ' border-indigo-400' : ' border-indigo-100') + (color === 'white' ? ' text-indigo-400' : ' text-white')} key={dayOfWeekIndex}>
                                         <p>{dayIndex}</p>
+                                        {blog ? <TfiAgenda /> : ' '}
                                     </div>
                                 )
                             })}

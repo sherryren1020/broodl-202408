@@ -1,10 +1,10 @@
-'use client'
-import { Fugaz_One } from 'next/font/google';
-import React, { useEffect, useState } from 'react'
+'use client' 
+import {Fugaz_One} from 'next/font/google';
+import React, {useEffect, useState} from 'react'
 import Calendar from './Calendar';
-import { useAuth } from '@/context/AuthContext';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/firebase';
+import {useAuth} from '@/context/AuthContext';
+import {doc, setDoc} from 'firebase/firestore';
+import {db} from '@/firebase';
 import Loading from './Loading';
 import Login from './Login';
 
@@ -12,10 +12,13 @@ const fugaz = Fugaz_One({subsets: ["latin"], weight: ['400']})
 
 
 export default function Dashboard() {
-    const {currentUser, userDataObj, setUserDataObj, loading} = useAuth()
+    const {currentUser, userDataObj, setUserDataObj, loading, setUserJournalObj} = useAuth()
     const [data, setData] = useState({})
+    const [journal, setJournal] = useState({})
+    const [isModalOpen, setIsModalOpen] = useState(false); 
     const now = new Date()
 
+    console.log(isModalOpen)
     function countValues() {
         let total_number_of_days = 0
         let sum_moods = 0
@@ -78,6 +81,26 @@ export default function Dashboard() {
         }
     }
 
+    async function handleAddJournal(journal) {
+      const day = now.getDate()
+      const month = now.getMonth()
+      const year = now.getFullYear()
+
+      try {
+  
+        const docRef = doc(db, 'users', currentUser.uid)
+        const res = await setDoc(docRef, {
+            [year]: {
+                [month]: {
+                    [day + '_journal']:journal
+                }
+            }
+        }, {merge: true})
+    } catch (err) {
+        console.log('Failed to set data: ', err.message)
+    }
+    }
+
     const moods = {
         '&*@#$': '😭',
         'Sad': '🥲',
@@ -131,7 +154,9 @@ export default function Dashboard() {
                 'text-5xl sm:text-6xl md:text-7xl text-center ' + fugaz.className
             }>
                 How do you
-                <span className='textGradient'> feel </span>
+                <span className='textGradient'>
+                    feel
+                </span>
                 today?
             </h4>
             <div className='flex items-stretch flex-wrap gap-4'>
@@ -160,6 +185,7 @@ export default function Dashboard() {
             } </div>
             <Calendar completeData={data}
                 handleSetMood={handleSetMood}/>
+
         </div>
     )
 }
